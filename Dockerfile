@@ -27,7 +27,7 @@ RUN cd /tmp; \
     make -j$(nproc) install; \
     cd ..; \
     rm -rf cmake-${CMAKE_VER}.tar.gz cmake-${CMAKE_VER};
-      
+
 # Install ninja
 ARG NINJA_VER=1.10.2
 ADD https://github.com/ninja-build/ninja/archive/v${NINJA_VER}.tar.gz /tmp/
@@ -47,3 +47,17 @@ ADD https://golang.org/dl/go${GOLANG_VER}.linux-amd64.tar.gz /tmp/
 RUN tar xzf /tmp/go${GOLANG_VER}.linux-amd64.tar.gz -C /usr/local ;\
     rm -rf /tmp/go${GOLANG_VER}.linux-amd64.tar.gz
 ENV PATH="/usr/local/go/bin:$PATH"
+
+# Install ccache to speedup engine building
+RUN apt-get install -y libhiredis-dev libzstd-dev
+ARG CCACHE_VER=4.6
+ADD https://github.com/ccache/ccache/releases/download/v${CCACHE_VER}/ccache-${CCACHE_VER}.tar.gz /tmp
+RUN cd /tmp; \
+    tar xzf ccache-${CCACHE_VER}.tar.gz; \
+    mkdir -p ccache-${CCACHE_VER}/cmake-build; \
+    cd ccache-${CCACHE_VER}/cmake-build; \
+    cmake ..; \
+    make -j$(nproc); \
+    make install; \
+    cd /tmp; \
+    rm -rf ccache-${CCACHE_VER}.tar.gz ccache-${CCACHE_VER}
