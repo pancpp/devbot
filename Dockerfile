@@ -17,6 +17,15 @@ RUN add-apt-repository -y ppa:git-core/ppa
 RUN apt-get update
 RUN apt-get install -y git
 
+# Install git-lfs
+ARG GITLFS_VERSION=3.1.2
+ADD https://github.com/git-lfs/git-lfs/releases/download/v${GITLFS_VERSION}/git-lfs-linux-amd64-v${GITLFS_VERSION}.tar.gz /tmp
+RUN mkdir -p /tmp/gitlfs; \
+    tar xzf /tmp/git-lfs-linux-amd64-v${GITLFS_VERSION}.tar.gz -C /tmp/gitlfs; \
+    /tmp/gitlfs/install.sh; \
+    git lfs install; \
+    rm -rf /tmp/git-lfs-linux-amd64-v${GITLFS_VERSION}.tar.gz /tmp/gitlfs
+
 # Install cmake
 ARG CMAKE_VER=3.22.2
 ADD https://github.com/Kitware/CMake/releases/download/v${CMAKE_VER}/cmake-${CMAKE_VER}.tar.gz /tmp/
