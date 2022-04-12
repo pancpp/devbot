@@ -4,13 +4,15 @@ LABEL author="Leyuan Pan" email="leyuanpan@hotmail.com"
 RUN echo "debconf debconf/frontend select Noninteractive" | debconf-set-selections
 RUN apt-get update
 RUN apt-get install -y apt-utils
-RUN apt-get install -y apt-transport-https ca-certificates software-properties-common
+RUN apt-get install -y apt-transport-https ca-certificates software-properties-common lsb_release
 RUN apt-get install -y build-essential make libtool autoconf pkg-config
 RUN apt-get install -y gcc g++ gfortran
 RUN apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu gfortran-aarch64-linux-gnu
 RUN apt-get install -y gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf gfortran-arm-linux-gnueabihf
 RUN apt-get install -y libssl-dev
 RUN apt-get install -y curl wget vim unzip net-tools iputils-ping
+RUN apt-get install -y python-dev python-mako python-pip python-six python-future
+RUN apt-get install -y python3-dev python3-mako python3-pip python3-setuptools python3-six python3-future
 
 # Install git
 RUN add-apt-repository -y ppa:git-core/ppa
@@ -70,3 +72,10 @@ RUN cd /tmp; \
     make install; \
     cd /tmp; \
     rm -rf ccache-${CCACHE_VER}.tar.gz ccache-${CCACHE_VER}
+
+# Install appimagetool and appimage-builder
+RUN apt-get install -y patchelf desktop-file-utils libgdk-pixbuf2.0-dev fakeroot strace fuse
+ADD https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage /usr/local/bin/appimagetool
+RUN chmod +x /usr/local/bin/appimagetool
+RUN pip3 install appimage-builder
+ENV APPIMAGE_EXTRACT_AND_RUN=1
