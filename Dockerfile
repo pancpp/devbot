@@ -4,7 +4,7 @@ LABEL author="Leyuan Pan" email="leyuanpan@hotmail.com"
 RUN echo "debconf debconf/frontend select Noninteractive" | debconf-set-selections
 RUN apt-get update
 RUN apt-get install -y apt-utils
-RUN apt-get install -y apt-transport-https ca-certificates software-properties-common lsb_release
+RUN apt-get install -y apt-transport-https ca-certificates software-properties-common lsb-release
 RUN apt-get install -y build-essential make libtool autoconf pkg-config
 RUN apt-get install -y gcc g++ gfortran
 RUN apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu gfortran-aarch64-linux-gnu
