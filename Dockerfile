@@ -53,7 +53,7 @@ RUN cd /tmp; \
     rm -rf v${NINJA_VER}.tar.gz ninja-${NINJA_VER}
 
 # Install golang
-ARG GOLANG_VER=1.18
+ARG GOLANG_VER=1.19.3
 ADD https://golang.org/dl/go${GOLANG_VER}.linux-amd64.tar.gz /tmp/
 RUN tar xzf /tmp/go${GOLANG_VER}.linux-amd64.tar.gz -C /usr/local ;\
     rm -rf /tmp/go${GOLANG_VER}.linux-amd64.tar.gz
