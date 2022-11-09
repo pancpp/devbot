@@ -75,7 +75,8 @@ RUN cd /tmp; \
 
 # Install appimagetool and appimage-builder
 RUN apt-get install -y patchelf desktop-file-utils libgdk-pixbuf2.0-dev fakeroot strace fuse
-ADD https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage /usr/local/bin/appimagetool
-RUN chmod +x /usr/local/bin/appimagetool
-RUN pip3 install appimage-builder
+ARG APPIMAGE_BUILDER_VER=1.1.0
+ADD https://github.com/AppImageCrafters/appimage-builder/releases/download/v${APPIMAGE_BUILDER_VER}/appimage-builder-${APPIMAGE_BUILDER_VER}-x86_64.AppImage /tmp/
+RUN mv /tmp/appimage-builder-${APPIMAGE_BUILDER_VER}-x86_64.AppImage /usr/local/bin/appimage-builder
+RUN chmod +x /usr/local/bin/appimage-builder
 ENV APPIMAGE_EXTRACT_AND_RUN=1
